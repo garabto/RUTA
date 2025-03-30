@@ -1,4 +1,4 @@
-# ruta_app
+# RUTA
 
 A new Flutter project.
 
