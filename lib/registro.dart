@@ -3,7 +3,10 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class Registro extends StatefulWidget {
+  const Registro({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _RegistroState createState() => _RegistroState();
 }
 
@@ -45,6 +48,7 @@ class _RegistroState extends State<Registro> {
       // Registro exitoso
       print('Usuario registrado correctamente');
       // Redirigir al usuario a la pantalla de inicio de sesión
+      // ignore: use_build_context_synchronously
       Navigator.pushReplacementNamed(context, '/login');
     } else {
       // Error al registrar
@@ -123,58 +127,87 @@ class _RegistroState extends State<Registro> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Registro"),
+        backgroundColor: const Color.fromRGBO(255, 197, 191, 1),
+        title: const Text("Registro",
+        style: TextStyle(color: Colors.black),
+        ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  "Crear Cuenta",
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      body: Container ( 
+            decoration: BoxDecoration(
+            color: Color.fromRGBO(240, 124, 113, 1), // Fondo rosa
+            border: Border.all(
+              color: Colors.white, // Borde blanco
+              width: 20.0, // Ancho del borde
+            ),
+          ), 
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Crear Cuenta",
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
+                  const SizedBox(height: 20),
+                    Image.asset(
+                    'assets/registro.png',
+                    width: 100, // Ajusta el tamaño de la imagen
+                    height: 100,
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    children: [ 
+                      // Campos de texto para los datos del usuario
+                      _buildTextField(nombreController, "Nombre", Icons.person),
+                      const SizedBox(height: 15),
+                      _buildTextField(apellidoPaternoController, "Apellido Paterno", Icons.person),
+                      const SizedBox(height: 15),
+                      _buildTextField(apellidoMaternoController, "Apellido Materno", Icons.person),
+                      const SizedBox(height: 15),
+                      _buildTextField(telefonoController, "Teléfono", Icons.phone),
+                      const SizedBox(height: 15),
+                      _buildTextField(calleController, "Calle", Icons.location_on),
+                      const SizedBox(height: 15),
+                      _buildTextField(numeroController, "Número", Icons.home),
+                      const SizedBox(height: 15),
+                      _buildTextField(coloniaController, "Colonia", Icons.location_on),
+                      const SizedBox(height: 15),
+                      _buildTextField(codigoPostalController, "Código Postal", Icons.pin),
+                      const SizedBox(height: 15),
+                      _buildTextField(emailController, "Correo Electrónico", Icons.email),
+                      const SizedBox(height: 15),
+                      _buildTextField(passwordController, "Contraseña", Icons.lock, obscureText: true),
+                      const SizedBox(height: 15),
+                      _buildTextField(confirmPasswordController, "Confirmar Contraseña", Icons.lock, obscureText: true),
+                      const SizedBox(height: 20),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
+                        onPressed: () {
+                          // Verificar que el formulario es válido antes de registrar
+                          if (validateForm()) {
+                            registerUser();
+                          }
+                        },
+                        child: const Text("Registrarse", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                      ),
+                    ],
+                  ),
                 ),
-                const SizedBox(height: 20),
-                // Campos de texto para los datos del usuario
-                _buildTextField(nombreController, "Nombre", Icons.person),
-                const SizedBox(height: 15),
-                _buildTextField(apellidoPaternoController, "Apellido Paterno", Icons.person),
-                const SizedBox(height: 15),
-                _buildTextField(apellidoMaternoController, "Apellido Materno", Icons.person),
-                const SizedBox(height: 15),
-                _buildTextField(telefonoController, "Teléfono", Icons.phone),
-                const SizedBox(height: 15),
-                _buildTextField(calleController, "Calle", Icons.location_on),
-                const SizedBox(height: 15),
-                _buildTextField(numeroController, "Número", Icons.home),
-                const SizedBox(height: 15),
-                _buildTextField(coloniaController, "Colonia", Icons.location_on),
-                const SizedBox(height: 15),
-                _buildTextField(codigoPostalController, "Código Postal", Icons.pin),
-                const SizedBox(height: 15),
-                _buildTextField(emailController, "Correo Electrónico", Icons.email),
-                const SizedBox(height: 15),
-                _buildTextField(passwordController, "Contraseña", Icons.lock, obscureText: true),
-                const SizedBox(height: 15),
-                _buildTextField(confirmPasswordController, "Confirmar Contraseña", Icons.lock, obscureText: true),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    // Verificar que el formulario es válido antes de registrar
-                    if (validateForm()) {
-                      registerUser();
-                    }
-                  },
-                  child: const Text("Registrarse"),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
       ),
-    );
+    );      
   }
 
   // Función para construir los campos de texto de manera reutilizable
@@ -182,10 +215,15 @@ class _RegistroState extends State<Registro> {
     return TextField(
       controller: controller,
       obscureText: obscureText,
+      style: const TextStyle(color: Colors.black),
       decoration: InputDecoration(
         labelText: label,
-        border: OutlineInputBorder(),
-        prefixIcon: Icon(icon),
+        labelStyle: const TextStyle(color: Colors.black),
+        border: OutlineInputBorder(
+           borderSide: const BorderSide(color: Colors.black),
+        ),
+        
+        prefixIcon: Icon(icon, color: Colors.black),
       ),
     );
   }

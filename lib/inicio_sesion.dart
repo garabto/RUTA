@@ -154,7 +154,7 @@ class _InicioSesionState extends State<InicioSesion> {
                       : ElevatedButton(
                           onPressed: _iniciarSesion,
                           style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
-                          child: const Text("Iniciar Sesión", style: TextStyle(color: Colors.black)),
+                          child: const Text("Iniciar Sesión", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
                         ),
                         const SizedBox(height: 15),
                         TextButton(
