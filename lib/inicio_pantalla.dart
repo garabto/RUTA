@@ -4,7 +4,7 @@ import 'inicio_sesion.dart'; // Importa la pantalla de inicio de sesión
 class InicioPantalla extends StatelessWidget {
   final String usuario; // Recibe el usuario autenticado
 
-  const InicioPantalla({Key? key, required this.usuario}) : super(key: key);
+  const InicioPantalla({super.key, required this.usuario});
 
   @override
   Widget build(BuildContext context) {
