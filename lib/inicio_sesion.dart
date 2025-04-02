@@ -5,7 +5,7 @@ import 'dart:convert'; // Para convertir la respuesta en JSON
 import 'package:http/http.dart' as http; // Para realizar solicitudes HTTP
 
 class InicioSesion extends StatefulWidget {
-  const InicioSesion({Key? key}) : super(key: key);
+  const InicioSesion({super.key});
 
   @override
   _InicioSesionState createState() => _InicioSesionState();
@@ -74,6 +74,7 @@ class _InicioSesionState extends State<InicioSesion> {
     } else {
       // Si la respuesta no es exitosa, devuelve false
       final errorData = json.decode(response.body);
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(errorData['message'] ?? 'Error desconocido')),
       );
@@ -83,71 +84,101 @@ class _InicioSesionState extends State<InicioSesion> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                "Iniciar Sesión",
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 20),
-              TextField(
-                controller: emailController,
-                decoration: const InputDecoration(
-                  labelText: "Correo Electrónico",
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.email),
+    return Scaffold( 
+      body: Container(
+          decoration: BoxDecoration(
+            color: Color.fromRGBO(21, 105, 126, 1), // Fondo azul
+            border: Border.all(
+              color: Colors.white, // Borde blanco
+              width: 20.0, // Ancho del borde
+            ),
+          ),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "Iniciar Sesión",
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
                 ),
-              ),
-              const SizedBox(height: 15),
-              TextField(
-                controller: passwordController,
-                obscureText: !isPasswordVisible,
-                decoration: InputDecoration(
-                  labelText: "Contraseña",
-                  border: OutlineInputBorder(),
-                  prefixIcon: const Icon(Icons.lock),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                const SizedBox(height: 20),
+                Image.asset(
+                  'assets/login.png',
+                  width: 100, // Ajusta el tamaño de la imagen
+                  height: 100,
+                ),
+                Container(
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  children: [  
+                    TextField(
+                      controller: emailController,
+                      decoration: const InputDecoration(
+                        labelText: "Correo Electrónico",
+                        labelStyle: TextStyle(color: Colors.black),
+                        border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.email, color: Colors.black),
+                      ),
                     ),
-                    onPressed: () {
-                      setState(() {
-                        isPasswordVisible = !isPasswordVisible;
-                      });
-                    },
+                    const SizedBox(height: 15),
+                    TextField(
+                      controller: passwordController,
+                      obscureText: !isPasswordVisible,
+                      decoration: InputDecoration(
+                        labelText: "Contraseña",
+                        labelStyle: TextStyle(color: Colors.black),
+                        border: OutlineInputBorder(),
+                        prefixIcon: const Icon(Icons.lock, color: Colors.black),
+                        suffixIcon: IconButton(
+                          color: Colors.black,
+                          icon: Icon(
+                            isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              isPasswordVisible = !isPasswordVisible;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                        const SizedBox(height: 20),
+                      isLoading
+                      ? const CircularProgressIndicator() // Muestra un indicador de carga mientras se realiza la solicitud
+                      : ElevatedButton(
+                          onPressed: _iniciarSesion,
+                          style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
+                          child: const Text("Iniciar Sesión", style: TextStyle(color: Colors.black)),
+                        ),
+                        const SizedBox(height: 15),
+                        TextButton(
+                          onPressed: () {
+                            // Navega a la pantalla de registro
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => Registro()),
+                            );
+                          },
+                        child: const Text(
+                          "¿No tienes una cuenta? Regístrate aquí",
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              isLoading
-                  ? const CircularProgressIndicator() // Muestra un indicador de carga mientras se realiza la solicitud
-                  : ElevatedButton(
-                      onPressed: _iniciarSesion,
-                      child: const Text("Iniciar Sesión"),
-                    ),
-              const SizedBox(height: 15),
-              TextButton(
-                onPressed: () {
-                  // Navega a la pantalla de registro
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Registro()),
-                  );
-                },
-                child: const Text(
-                  "¿No tienes una cuenta? Regístrate aquí",
-                  style: TextStyle(color: Colors.blue),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 }
+//nos falta agregar lo del olvido de la contraseña
