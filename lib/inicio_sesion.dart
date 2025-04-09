@@ -57,7 +57,7 @@ class _InicioSesionState extends State<InicioSesion> {
    //para emular en Android
    // final url = Uri.parse('http://10.0.2.2:3000/login'); // URL de tu servidor backend (si es un emulador de Android)
      //emular en la web
-      final url = Uri.parse('http://192.168.0.103:3000/login'); // Reemplaza con tu IP local
+      final url = Uri.parse('http://localhost:3000/login'); // Reemplaza con tu IP local
 
     // Hacer la solicitud POST
     final response = await http.post(
